@@ -27,7 +27,7 @@ def echo():
 @app.route("/add", methods=["GET"])
 def add():
     # Get query params ?a=3&b=5
-    a = request.args.get("a", type=int)
+      a = request.args.get("a", type=int)
     b = request.args.get("b", type=int)
     if a is None or b is None:
         return jsonify({"error": "Please provide both 'a' and 'b' as query parameters"}), 400
