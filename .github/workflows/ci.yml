@@ -41,3 +41,8 @@ jobs:
         run: |
           pip install flake8
           flake8 . || echo "Lint issues found, continuing..."
+
+      # 6️⃣ Flask run demo (comment only)
+      - name: Flask run note
+        run: |
+          echo "To run the app locally use: flask run OR python app.py"
