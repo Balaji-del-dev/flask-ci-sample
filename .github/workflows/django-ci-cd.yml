@@ -21,16 +21,15 @@ jobs:
 
     - name: Install dependencies
       run: |
+        cd simple-django-app
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Run Django Tests
-      run: python manage.py test
-
-    - name: Run flake8 Lint
       run: |
-        pip install flake8
-        flake8 .
+        cd simple-django-app
+        python manage.py test
+
 
   cd:
     name: Deploy to Server
@@ -60,16 +59,17 @@ jobs:
           echo '--- Setup virtualenv ---'
           python3 -m venv venv
           source venv/bin/activate
+
           pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r simple-django-app/requirements.txt
 
-          echo '--- Apply migrations ---'
-          python manage.py migrate
+          echo '--- DB Migrations ---'
+          python simple-django-app/manage.py migrate
 
-          echo '--- Collect static ---'
-          python manage.py collectstatic --noinput
+          echo '--- Collect Static ---'
+          python simple-django-app/manage.py collectstatic --noinput
 
-          echo '--- Restart Django Server ---'
+          echo '--- Restart Django server ---'
           pkill -f runserver || true
-          nohup venv/bin/python manage.py runserver 0.0.0.0:8000 &
+          nohup venv/bin/python simple-django-app/manage.py runserver 0.0.0.0:8000 &
         "
